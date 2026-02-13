@@ -27,6 +27,43 @@
                   radial-gradient(1000px 700px at 20% 20%, rgba(255,79,167,.26), transparent 60%),
                   radial-gradient(900px 650px at 50% 90%, rgba(53,214,255,.18), transparent 55%),
                   linear-gradient(180deg, var(--bg0), var(--bg1));
+      transition: background 1.5s ease;
+    }
+    
+    /* Background themes */
+    body.theme-pink{
+      background: radial-gradient(1200px 800px at 30% 20%, rgba(255,79,167,.35), transparent 60%),
+                  radial-gradient(1000px 700px at 70% 70%, rgba(255,47,109,.25), transparent 60%),
+                  radial-gradient(900px 650px at 50% 90%, rgba(255,105,180,.15), transparent 55%),
+                  linear-gradient(180deg, #0a0612, #12081a);
+    }
+    
+    body.theme-violet{
+      background: radial-gradient(1200px 800px at 50% 10%, rgba(138,92,255,.4), transparent 60%),
+                  radial-gradient(1000px 700px at 80% 80%, rgba(148,87,235,.28), transparent 60%),
+                  radial-gradient(900px 650px at 20% 90%, rgba(123,104,238,.18), transparent 55%),
+                  linear-gradient(180deg, #08061a, #0f0820);
+    }
+    
+    body.theme-cyan{
+      background: radial-gradient(1200px 800px at 40% 30%, rgba(53,214,255,.32), transparent 60%),
+                  radial-gradient(1000px 700px at 70% 20%, rgba(0,191,255,.22), transparent 60%),
+                  radial-gradient(900px 650px at 50% 90%, rgba(64,224,208,.18), transparent 55%),
+                  linear-gradient(180deg, #060e14, #081418);
+    }
+    
+    body.theme-rose{
+      background: radial-gradient(1200px 800px at 60% 20%, rgba(255,47,109,.38), transparent 60%),
+                  radial-gradient(1000px 700px at 30% 70%, rgba(255,20,147,.25), transparent 60%),
+                  radial-gradient(900px 650px at 80% 90%, rgba(255,105,180,.20), transparent 55%),
+                  linear-gradient(180deg, #14060e, #1a0812);
+    }
+    
+    body.theme-gold{
+      background: radial-gradient(1200px 800px at 50% 30%, rgba(255,215,0,.25), transparent 60%),
+                  radial-gradient(1000px 700px at 70% 60%, rgba(255,193,37,.18), transparent 60%),
+                  radial-gradient(900px 650px at 30% 90%, rgba(255,223,0,.15), transparent 55%),
+                  linear-gradient(180deg, #0f0a02, #14100a);
     }
 
     /* Splash Screen */
@@ -36,14 +73,25 @@
       background: radial-gradient(circle at 50% 45%, rgba(255,79,167,.15), transparent 70%),
                   linear-gradient(180deg, var(--bg0), var(--bg1));
       display:flex;
+      flex-direction:column;
       align-items:center;
       justify-content:center;
       z-index:9999;
-      animation: fadeOut 1s ease 2.5s forwards;
+      opacity:1;
+      transition: opacity 1s ease;
+    }
+    #splash.hide{
+      opacity:0;
       pointer-events:none;
     }
-    @keyframes fadeOut{
-      to{ opacity:0; visibility:hidden; }
+    
+    .splashContent{
+      text-align:center;
+      animation: fadeInSplash 1s ease;
+    }
+    @keyframes fadeInSplash{
+      from{ opacity:0; transform:translateY(20px); }
+      to{ opacity:1; transform:translateY(0); }
     }
 
     .splashHeart{
@@ -52,6 +100,7 @@
       position:relative;
       animation: heartPulse 2s ease-in-out infinite, scaleIn 1.2s cubic-bezier(.2,.8,.2,1);
       filter: drop-shadow(0 20px 60px rgba(255,79,167,.5));
+      margin-bottom:40px;
     }
     @keyframes scaleIn{
       0%{ transform: scale(0) rotate(-20deg); opacity:0; }
@@ -63,6 +112,40 @@
       30%{ transform: scale(1); }
       45%{ transform: scale(1.22); }
       75%{ transform: scale(1); }
+    }
+    
+    .enterBtn{
+      padding:16px 40px;
+      font-size:18px;
+      font-weight:600;
+      border:2px solid rgba(255,79,167,.4);
+      background: linear-gradient(135deg, rgba(255,79,167,.25), rgba(138,92,255,.15));
+      color:var(--text);
+      border-radius:50px;
+      cursor:pointer;
+      transition: all .3s ease;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 15px 40px rgba(255,79,167,.3);
+      animation: fadeInSplash 1.2s ease 1s both, pulse 2s ease-in-out 2s infinite;
+    }
+    .enterBtn:hover{
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 20px 50px rgba(255,79,167,.5);
+      background: linear-gradient(135deg, rgba(255,79,167,.35), rgba(138,92,255,.25));
+    }
+    .enterBtn:active{
+      transform: translateY(-1px) scale(1.02);
+    }
+    @keyframes pulse{
+      0%,100%{ box-shadow: 0 15px 40px rgba(255,79,167,.3); }
+      50%{ box-shadow: 0 15px 40px rgba(255,79,167,.6); }
+    }
+    
+    .splashText{
+      color:var(--muted);
+      font-size:16px;
+      margin-top:16px;
+      animation: fadeInSplash 1.2s ease 1.2s both;
     }
 
     /* Ambient effects */
@@ -104,11 +187,19 @@
       margin: 0 auto;
       padding: clamp(16px, 4vw, 32px);
       padding-bottom: 60px;
+      transition: opacity 2s ease, transform 2s ease;
+    }
+    .wrap.fadeOut{
+      opacity:0;
+      transform: scale(0.95);
+      pointer-events:none;
     }
 
     /* Header - simplified */
     header{
-      text-align:center;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
       padding: 20px 0 40px;
     }
     .brand{
@@ -132,6 +223,34 @@
     @keyframes shine{
       0%,100%{ box-shadow: 0 8px 20px rgba(255,79,167,.3); }
       50%{ box-shadow: 0 8px 30px rgba(255,79,167,.6); }
+    }
+
+    .music-btn{
+      margin-left:auto;
+      font-size:14px;
+      position:relative;
+    }
+    .music-btn.playing{
+      background: rgba(255,79,167,.15);
+      border-color: rgba(255,79,167,.3);
+    }
+    .music-btn.loading{
+      opacity:0.6;
+      cursor:wait;
+    }
+    
+    /* Loading spinner */
+    .spinner{
+      display:inline-block;
+      width:12px;
+      height:12px;
+      border:2px solid rgba(255,255,255,.3);
+      border-top-color:rgba(255,255,255,.8);
+      border-radius:50%;
+      animation:spin .6s linear infinite;
+    }
+    @keyframes spin{
+      to{ transform:rotate(360deg); }
     }
 
     /* Hero - no boxes, flowing */
@@ -198,10 +317,81 @@
       height:160px;
       position:relative;
       animation: float 4s ease-in-out infinite;
+      cursor:pointer;
+      transition: transform .3s ease;
+    }
+    .centerHeart:hover{
+      transform: scale(1.1);
+    }
+    .centerHeart:active{
+      transform: scale(0.95);
     }
     @keyframes float{
       0%,100%{ transform: translateY(0px); }
       50%{ transform: translateY(-15px); }
+    }
+    
+    /* Jiggle animation when clicked */
+    @keyframes jiggle{
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      10% { transform: rotate(-8deg) scale(1.1); }
+      20% { transform: rotate(7deg) scale(1.15); }
+      30% { transform: rotate(-6deg) scale(1.12); }
+      40% { transform: rotate(5deg) scale(1.08); }
+      50% { transform: rotate(-4deg) scale(1.05); }
+      60% { transform: rotate(3deg) scale(1.03); }
+      70% { transform: rotate(-2deg) scale(1.02); }
+      80% { transform: rotate(1deg) scale(1.01); }
+      90% { transform: rotate(-0.5deg) scale(1); }
+    }
+    
+    .centerHeart.jiggling{
+      animation: jiggle 0.6s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    
+    /* Heartbeat pulse when clicked */
+    @keyframes heartbeatPulse{
+      0% { transform: scale(1); }
+      14% { transform: scale(1.15); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.2); }
+      70% { transform: scale(1); }
+    }
+    
+    /* Ripple container */
+    .heartRipples{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+    
+    /* Ripple rings */
+    .ripple{
+      position:absolute;
+      inset:-20%;
+      border-radius:50%;
+      border:2px solid rgba(255,79,167,.6);
+      opacity:0;
+      animation: rippleOut 2s ease-out infinite;
+    }
+    .ripple:nth-child(2){
+      animation-delay: .6s;
+    }
+    .ripple:nth-child(3){
+      animation-delay: 1.2s;
+    }
+    @keyframes rippleOut{
+      0%{
+        transform: scale(0.5);
+        opacity:0;
+      }
+      20%{
+        opacity:.8;
+      }
+      100%{
+        transform: scale(1.5);
+        opacity:0;
+      }
     }
 
     /* Reasons - flowing cards without heavy boxes */
@@ -414,6 +604,71 @@
         opacity:.1;
       }
     }
+    
+    /* Forever message overlay */
+    .foreverOverlay{
+      position:fixed;
+      inset:0;
+      background: linear-gradient(180deg, var(--bg0), var(--bg1));
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      z-index:200;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity 2s ease;
+    }
+    .foreverOverlay.show{
+      opacity:1;
+      pointer-events:auto;
+    }
+    
+    .foreverMessage{
+      text-align:center;
+      padding:40px 20px;
+      opacity:0;
+      transform: translateY(30px);
+      transition: opacity 1.5s ease 1s, transform 1.5s ease 1s;
+    }
+    .foreverOverlay.show .foreverMessage{
+      opacity:1;
+      transform: translateY(0);
+    }
+    
+    .foreverMessage h1{
+      font-size: clamp(36px, 8vw, 72px);
+      font-weight:700;
+      margin:0 0 24px;
+      letter-spacing:-1px;
+      background:linear-gradient(120deg,var(--pink),var(--violet),var(--cyan));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      animation: gradientShift 8s ease infinite;
+      background-size: 200% 200%;
+    }
+    
+    .foreverMessage p{
+      font-size: clamp(18px, 4vw, 28px);
+      color:var(--muted);
+      margin:0;
+      line-height:1.6;
+      max-width:600px;
+    }
+    
+    .foreverHeart{
+      width:100px;
+      height:100px;
+      margin:40px auto 0;
+      animation: heartPulse 2s ease-in-out infinite;
+      filter: drop-shadow(0 20px 50px rgba(255,79,167,.6));
+      opacity:0;
+      transition: opacity 1.5s ease 2s;
+    }
+    .foreverOverlay.show .foreverHeart{
+      opacity:1;
+    }
 
     /* Mobile adjustments */
     @media (max-width: 600px){
@@ -436,17 +691,23 @@
 <body>
   <!-- Splash Screen -->
   <div id="splash">
-    <svg class="splashHeart" viewBox="0 0 32 32" fill="none">
-      <path d="M16,28.261c0,0-14-9.3-14-17.046C2,6.442,5.438,3.983,9.5,3.983c2.539,0,4.653,1.404,6.5,3.517 c1.847-2.113,3.961-3.517,6.5-3.517C26.562,3.983,30,6.442,30,11.215C30,18.961,16,28.261,16,28.261z"
-        fill="url(#splashGradient)"/>
-      <defs>
-        <linearGradient id="splashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#ff4fa7;stop-opacity:1" />
-          <stop offset="50%" style="stop-color:#8a5cff;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#35d6ff;stop-opacity:1" />
-        </linearGradient>
-      </defs>
-    </svg>
+    <div class="splashContent">
+      <svg class="splashHeart" viewBox="0 0 32 32" fill="none">
+        <path d="M16,28.261c0,0-14-9.3-14-17.046C2,6.442,5.438,3.983,9.5,3.983c2.539,0,4.653,1.404,6.5,3.517 c1.847-2.113,3.961-3.517,6.5-3.517C26.562,3.983,30,6.442,30,11.215C30,18.961,16,28.261,16,28.261z"
+          fill="url(#splashGradient)"/>
+        <defs>
+          <linearGradient id="splashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ff4fa7;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#8a5cff;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#35d6ff;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <button class="enterBtn" id="enterBtn">
+        💖 Enter
+      </button>
+      <p class="splashText">Click to start with music</p>
+    </div>
   </div>
 
   <div class="film"></div>
@@ -454,6 +715,31 @@
   <canvas id="hearts"></canvas>
   <div class="confetti" id="confetti"></div>
   <div class="toast" id="toast"></div>
+  
+  <!-- Forever Message Overlay -->
+  <div class="foreverOverlay" id="foreverOverlay">
+    <div class="foreverMessage">
+      <h1>Let's stay forever ❤️</h1>
+      <p>You and me, always and forever.<br/>This is just the beginning of our story.</p>
+      <svg class="foreverHeart" viewBox="0 0 32 32" fill="none">
+        <path d="M16,28.261c0,0-14-9.3-14-17.046C2,6.442,5.438,3.983,9.5,3.983c2.539,0,4.653,1.404,6.5,3.517 c1.847-2.113,3.961-3.517,6.5-3.517C26.562,3.983,30,6.442,30,11.215C30,18.961,16,28.261,16,28.261z"
+          fill="url(#foreverGradient)"/>
+        <defs>
+          <linearGradient id="foreverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ff4fa7;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#8a5cff;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#35d6ff;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop preload="auto" volume="0.3">
+    <source src="background-music.mp3" type="audio/mpeg">
+    <source src="background-music.ogg" type="audio/ogg">
+  </audio>
 
   <div class="wrap">
     <header>
@@ -461,6 +747,10 @@
         <div class="badge"></div>
         <div style="font-weight:600; font-size:15px;">Valentine Capsule ✨</div>
       </div>
+      <button class="btn music-btn" id="musicBtn" style="margin-top:16px;">
+        <span id="musicIcon">🎵</span>
+        <span id="musicLabel">Play Music</span>
+      </button>
     </header>
 
     <main>
@@ -480,8 +770,13 @@
         </p>
 
         <!-- Big centered heart -->
-        <div class="centerHeart">
-          <svg viewBox="0 0 32 32" fill="none" style="width:100%; height:100%; filter: drop-shadow(0 25px 50px rgba(255,79,167,.4));">
+        <div class="centerHeart" id="centerHeart">
+          <div class="heartRipples">
+            <div class="ripple"></div>
+            <div class="ripple"></div>
+            <div class="ripple"></div>
+          </div>
+          <svg viewBox="0 0 32 32" fill="none" style="width:100%; height:100%; filter: drop-shadow(0 25px 50px rgba(255,79,167,.4)); position:relative; z-index:1;">
             <path d="M16,28.261c0,0-14-9.3-14-17.046C2,6.442,5.438,3.983,9.5,3.983c2.539,0,4.653,1.404,6.5,3.517 c1.847-2.113,3.961-3.517,6.5-3.517C26.562,3.983,30,6.442,30,11.215C30,18.961,16,28.261,16,28.261z"
               fill="url(#heartGradient)"/>
             <defs>
@@ -613,7 +908,7 @@ function typeLoop(){
   const speed = deleting ? rand(20, 30) : rand(35, 55);
   setTimeout(typeLoop, speed);
 }
-setTimeout(typeLoop, 1000);
+// Typewriter will start when user clicks Enter button
 
 /* Floating hearts canvas */
 const c = $("#hearts");
@@ -781,12 +1076,42 @@ function confettiPop(){
 }
 
 /* Yes/No buttons */
+const wrap = $(".wrap");
+const foreverOverlay = $("#foreverOverlay");
+
 $("#yesBtn").addEventListener("click", (e)=>{
   const r = e.currentTarget.getBoundingClientRect();
   burst(r.left + r.width/2, r.top + r.height/2, 50);
   confettiPop();
+  
+  // Update the question text
   $("#question").textContent = "YAYYY! I LOVE YOU 💖";
   showToast("Best answer ever 😌");
+  
+  // After confetti settles, fade everything and show forever message
+  setTimeout(() => {
+    // Fade out main content
+    wrap.classList.add('fadeOut');
+    
+    // Show forever overlay after content starts fading
+    setTimeout(() => {
+      foreverOverlay.classList.add('show');
+      
+      // Create continuous heart particles around the forever heart
+      let particleInterval = setInterval(() => {
+        if (foreverOverlay.classList.contains('show')) {
+          // Create hearts floating up from bottom
+          for(let i = 0; i < 3; i++) {
+            setTimeout(() => {
+              spawnHeart(rand(W * 0.3, W * 0.7), H + 20);
+            }, i * 200);
+          }
+        } else {
+          clearInterval(particleInterval);
+        }
+      }, 1000);
+    }, 1000);
+  }, 3500);
 });
 
 const noBtn = $("#noBtn");
@@ -817,8 +1142,226 @@ window.addEventListener("pointerdown", (e)=>{
   burst(e.clientX, e.clientY, 12);
 });
 
-/* Initial toast */
-setTimeout(()=>showToast("Tap anywhere for sparkles ✨"), 3500);
+/* Heart Click - Change Background Theme */
+const centerHeart = $("#centerHeart");
+const themes = ['theme-pink', 'theme-violet', 'theme-cyan', 'theme-rose', 'theme-gold'];
+const themeNames = ['Pink Love', 'Violet Dreams', 'Cyan Sky', 'Rose Garden', 'Golden Hour'];
+let currentTheme = -1; // -1 means default
+
+centerHeart.addEventListener('click', (e) => {
+  // Add jiggle animation
+  centerHeart.classList.remove('jiggling');
+  // Force reflow to restart animation
+  void centerHeart.offsetWidth;
+  centerHeart.classList.add('jiggling');
+  
+  // Remove jiggle class after animation
+  setTimeout(() => {
+    centerHeart.classList.remove('jiggling');
+  }, 600);
+  
+  // Create burst at heart center
+  const r = centerHeart.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height/2, 40);
+  
+  // Remove current theme
+  if (currentTheme >= 0) {
+    document.body.classList.remove(themes[currentTheme]);
+  }
+  
+  // Move to next theme
+  currentTheme = (currentTheme + 1) % (themes.length + 1);
+  
+  // Apply new theme (or go back to default)
+  if (currentTheme < themes.length) {
+    document.body.classList.add(themes[currentTheme]);
+    showToast(`Theme: ${themeNames[currentTheme]} 💖`);
+  } else {
+    currentTheme = -1;
+    showToast('Theme: Default Rainbow ✨');
+  }
+  
+  // Extra sparkle effect - heart-shaped pattern
+  setTimeout(() => {
+    // Create heart-shaped sparkle pattern
+    const heartPattern = [
+      // Top curves of heart
+      {angle: 0, dist: 80}, {angle: 0.3, dist: 90}, {angle: 0.6, dist: 95},
+      {angle: 0.9, dist: 90}, {angle: 1.2, dist: 80}, {angle: 1.5, dist: 70},
+      // Right side
+      {angle: 1.8, dist: 75}, {angle: 2.1, dist: 85}, {angle: 2.4, dist: 95},
+      // Bottom point
+      {angle: 2.7, dist: 100}, {angle: 3, dist: 105}, {angle: 3.3, dist: 100},
+      // Left side  
+      {angle: 3.6, dist: 95}, {angle: 3.9, dist: 85}, {angle: 4.2, dist: 75},
+      // Back to top
+      {angle: 4.5, dist: 70}, {angle: 4.8, dist: 80}, {angle: 5.1, dist: 90},
+      {angle: 5.4, dist: 95}, {angle: 5.7, dist: 90}, {angle: 6, dist: 80}
+    ];
+    
+    heartPattern.forEach((point, i) => {
+      setTimeout(() => {
+        const x = r.left + r.width/2 + Math.cos(point.angle) * point.dist;
+        const y = r.top + r.height/2 + Math.sin(point.angle) * point.dist;
+        
+        const p = document.createElement("div");
+        p.style.position = "fixed";
+        p.style.left = x + "px";
+        p.style.top = y + "px";
+        p.style.width = "6px";
+        p.style.height = "6px";
+        p.style.borderRadius = "50%";
+        p.style.background = `hsla(${rand(320, 360)}, 95%, 70%, 0.95)`;
+        p.style.boxShadow = `0 0 10px hsla(${rand(320, 360)}, 95%, 70%, 0.8)`;
+        p.style.pointerEvents = "none";
+        p.style.zIndex = 80;
+        document.body.appendChild(p);
+        
+        p.animate([
+          { transform: 'scale(0)', opacity: 0 },
+          { transform: 'scale(1.5)', opacity: 1, offset: 0.3 },
+          { transform: 'scale(0.5)', opacity: 0 }
+        ], { duration: 1200, easing: 'cubic-bezier(.2,.8,.2,1)' })
+        .onfinish = () => p.remove();
+      }, i * 30);
+    });
+  }, 100);
+});
+
+/* Background Music */
+const bgMusic = $("#bgMusic");
+const musicBtn = $("#musicBtn");
+const musicIcon = $("#musicIcon");
+const musicLabel = $("#musicLabel");
+const splash = $("#splash");
+const enterBtn = $("#enterBtn");
+let musicLoaded = false;
+let musicPlaying = false;
+let hasInteracted = false;
+
+// Set volume level (0.0 to 1.0)
+// 0.3 = 30% volume (soft background music)
+// Adjust this number: 0.2 = quieter, 0.5 = louder
+bgMusic.volume = 0.3;
+
+// Show loading state initially
+musicBtn.classList.add("loading");
+musicLabel.innerHTML = '<span class="spinner"></span> Loading...';
+
+// Handle music loading
+bgMusic.addEventListener('canplaythrough', () => {
+  musicLoaded = true;
+  musicBtn.classList.remove("loading");
+  updateMusicButton();
+  
+  // Update enter button when music is ready
+  if (!hasInteracted) {
+    enterBtn.innerHTML = '💖 Enter';
+  }
+});
+
+bgMusic.addEventListener('loadeddata', () => {
+  console.log('Music loaded and ready');
+});
+
+bgMusic.addEventListener('error', (e) => {
+  console.error('Music loading error:', e);
+  musicBtn.classList.remove("loading");
+  musicLabel.textContent = "Music unavailable";
+  
+  // Still allow entering without music
+  if (!hasInteracted) {
+    enterBtn.innerHTML = '💖 Enter';
+    enterBtn.disabled = false;
+  }
+});
+
+// Track play/pause state
+bgMusic.addEventListener('play', () => {
+  musicPlaying = true;
+  musicBtn.classList.add("playing");
+  updateMusicButton();
+});
+
+bgMusic.addEventListener('pause', () => {
+  musicPlaying = false;
+  musicBtn.classList.remove("playing");
+  updateMusicButton();
+});
+
+function updateMusicButton() {
+  if (musicPlaying) {
+    musicIcon.textContent = "🔊";
+    musicLabel.textContent = "Playing...";
+  } else {
+    musicIcon.textContent = "🔇";
+    musicLabel.textContent = "Play Music";
+  }
+}
+
+// Start music playback
+function startMusic() {
+  if (!musicLoaded) {
+    console.log('Music not loaded yet');
+    return Promise.resolve();
+  }
+  
+  return bgMusic.play()
+    .then(() => {
+      console.log('Music started successfully');
+      showToast("Music playing 🎵");
+    })
+    .catch(error => {
+      console.log('Music playback prevented:', error);
+      showToast("Music ready - use button to play 🎵");
+    });
+}
+
+// Enter button click - guarantees user interaction
+enterBtn.addEventListener('click', async () => {
+  hasInteracted = true;
+  
+  // Hide splash screen with fade
+  splash.classList.add('hide');
+  
+  // Start music immediately on user interaction
+  await startMusic();
+  
+  // Start other animations
+  setTimeout(typeLoop, 500);
+  setTimeout(()=>showToast("Tap anywhere for sparkles ✨"), 2000);
+});
+
+// Music button click handler
+musicBtn.addEventListener("click", () => {
+  if (!musicLoaded) {
+    showToast("Music is still loading...");
+    return;
+  }
+  
+  if (musicPlaying) {
+    bgMusic.pause();
+    showToast("Music paused");
+  } else {
+    bgMusic.play()
+      .then(() => {
+        showToast("Music playing 🎵");
+      })
+      .catch(error => {
+        console.error('Playback error:', error);
+        showToast("Unable to play music");
+      });
+  }
+});
+
+// Handle page visibility to pause/resume music
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && musicPlaying) {
+    // Optionally pause when tab is hidden
+    // bgMusic.pause();
+  }
+});
+
 </script>
 </body>
 </html>
