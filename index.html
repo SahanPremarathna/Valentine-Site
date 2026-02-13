@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For My Love ❤️</title>
+  <meta name="theme-color" content="#0b0b12" />
+  <style>
+    :root{
+      --bg0:#070710;
+      --bg1:#0b0b18;
+      --pink:#ff4fa7;
+      --rose:#ff2f6d;
+      --violet:#8a5cff;
+      --cyan:#35d6ff;
+      --text:#f6f7ff;
+      --muted:rgba(246,247,255,.72);
+      --glass:rgba(255,255,255,.06);
+      --shadow: 0 18px 45px rgba(0,0,0,.55);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;overflow-x:hidden}
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--text);
+      background: radial-gradient(1200px 800px at 70% 10%, rgba(138,92,255,.28), transparent 55%),
+                  radial-gradient(1000px 700px at 20% 20%, rgba(255,79,167,.26), transparent 60%),
+                  radial-gradient(900px 650px at 50% 90%, rgba(53,214,255,.18), transparent 55%),
+                  linear-gradient(180deg, var(--bg0), var(--bg1));
+    }
+
+    /* Splash Screen */
+    #splash{
+      position:fixed;
+      inset:0;
+      background: radial-gradient(circle at 50% 45%, rgba(255,79,167,.15), transparent 70%),
+                  linear-gradient(180deg, var(--bg0), var(--bg1));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+      animation: fadeOut 1s ease 2.5s forwards;
+      pointer-events:none;
+    }
+    @keyframes fadeOut{
+      to{ opacity:0; visibility:hidden; }
+    }
+
+    .splashHeart{
+      width:140px;
+      height:140px;
+      position:relative;
+      animation: heartPulse 2s ease-in-out infinite, scaleIn 1.2s cubic-bezier(.2,.8,.2,1);
+      filter: drop-shadow(0 20px 60px rgba(255,79,167,.5));
+    }
+    @keyframes scaleIn{
+      0%{ transform: scale(0) rotate(-20deg); opacity:0; }
+      100%{ transform: scale(1) rotate(0deg); opacity:1; }
+    }
+    @keyframes heartPulse{
+      0%,100%{ transform: scale(1); }
+      15%{ transform: scale(1.15); }
+      30%{ transform: scale(1); }
+      45%{ transform: scale(1.22); }
+      75%{ transform: scale(1); }
+    }
+
+    /* Ambient effects */
+    .film{
+      position:fixed; inset:0;
+      background: conic-gradient(from 180deg at 50% 50%,
+        rgba(255,79,167,.18), rgba(138,92,255,.16), rgba(53,214,255,.12),
+        rgba(255,47,109,.14), rgba(255,79,167,.18));
+      mix-blend-mode: screen;
+      filter: blur(60px) saturate(1.25);
+      opacity:.55;
+      animation: drift 14s ease-in-out infinite alternate;
+      pointer-events:none;
+      z-index:-3;
+    }
+    @keyframes drift{
+      0%{ transform: translate(-2%, -1%) scale(1.05) rotate(-2deg); }
+      100%{ transform: translate(2%, 1%) scale(1.12) rotate(2deg); }
+    }
+
+    .noise{
+      position:fixed; inset:0;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E");
+      opacity:.13;
+      mix-blend-mode: overlay;
+      pointer-events:none;
+      z-index:-2;
+    }
+
+    canvas#hearts{
+      position:fixed; inset:0;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    /* Layout */
+    .wrap{
+      max-width: 900px;
+      margin: 0 auto;
+      padding: clamp(16px, 4vw, 32px);
+      padding-bottom: 60px;
+    }
+
+    /* Header - simplified */
+    header{
+      text-align:center;
+      padding: 20px 0 40px;
+    }
+    .brand{
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding: 12px 24px;
+      border-radius:50px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(10px);
+    }
+    .badge{
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,79,167,.95), rgba(138,92,255,.85));
+      box-shadow: 0 8px 20px rgba(255,79,167,.3);
+      animation: shine 3s ease-in-out infinite;
+    }
+    @keyframes shine{
+      0%,100%{ box-shadow: 0 8px 20px rgba(255,79,167,.3); }
+      50%{ box-shadow: 0 8px 30px rgba(255,79,167,.6); }
+    }
+
+    /* Hero - no boxes, flowing */
+    .hero{
+      text-align:center;
+      padding: 60px 20px;
+      position:relative;
+    }
+
+    .badge-text{
+      font-size:13px;
+      color:rgba(255,255,255,.68);
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      margin-bottom:16px;
+    }
+
+    .title{
+      font-size: clamp(32px, 7vw, 56px);
+      line-height:1.1;
+      margin: 0 0 24px;
+      letter-spacing:-1px;
+      font-weight:700;
+    }
+
+    .gradient-text{
+      background:linear-gradient(120deg,var(--pink),var(--violet),var(--cyan));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      animation: gradientShift 8s ease infinite;
+      background-size: 200% 200%;
+    }
+    @keyframes gradientShift{
+      0%,100%{ background-position: 0% 50%; }
+      50%{ background-position: 100% 50%; }
+    }
+
+    .sub{
+      color:var(--muted);
+      font-size: clamp(16px, 3vw, 19px);
+      line-height:1.6;
+      margin: 0 auto 40px;
+      max-width: 600px;
+    }
+
+    .type{
+      display:inline-block;
+      border-right: 2px solid rgba(255,255,255,.55);
+      padding-right:6px;
+      white-space:nowrap;
+      overflow:hidden;
+      vertical-align:bottom;
+    }
+    .cursorBlink{
+      animation: blink .8s steps(2) infinite;
+    }
+    @keyframes blink{ 50%{ border-color: transparent; } }
+
+    /* Big centered heart */
+    .centerHeart{
+      margin: 60px auto;
+      width:160px;
+      height:160px;
+      position:relative;
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%,100%{ transform: translateY(0px); }
+      50%{ transform: translateY(-15px); }
+    }
+
+    /* Reasons - flowing cards without heavy boxes */
+    .reasons{
+      max-width:700px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+
+    .reason-item{
+      margin-bottom: 50px;
+      opacity:0;
+      transform: translateY(30px);
+      animation: fadeInUp .8s ease forwards;
+    }
+    .reason-item:nth-child(1){ animation-delay: .2s; }
+    .reason-item:nth-child(2){ animation-delay: .4s; }
+    .reason-item:nth-child(3){ animation-delay: .6s; }
+    @keyframes fadeInUp{
+      to{ opacity:1; transform: translateY(0); }
+    }
+
+    .reason-number{
+      display:inline-block;
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, var(--pink), var(--violet));
+      color:white;
+      font-weight:700;
+      font-size:18px;
+      line-height:40px;
+      text-align:center;
+      margin-bottom:16px;
+      box-shadow: 0 10px 25px rgba(255,79,167,.25);
+    }
+
+    .reason-title{
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight:700;
+      margin: 0 0 12px;
+      letter-spacing:-.3px;
+    }
+
+    .reason-text{
+      color:var(--muted);
+      font-size: clamp(15px, 3vw, 17px);
+      line-height:1.6;
+      margin:0;
+    }
+
+    /* Note section - soft, no box */
+    .note-section{
+      max-width:650px;
+      margin: 80px auto;
+      padding: 40px 30px;
+      text-align:center;
+      background: radial-gradient(circle at 50% 0%, rgba(255,79,167,.08), transparent 70%);
+      border-radius:30px;
+      position:relative;
+    }
+
+    .note-section h3{
+      font-size: clamp(22px, 4vw, 28px);
+      margin: 0 0 20px;
+      letter-spacing:-.3px;
+    }
+
+    .note-section p{
+      color:var(--muted);
+      font-size: clamp(15px, 3vw, 17px);
+      line-height:1.7;
+      margin: 0 0 30px;
+    }
+
+    /* Buttons */
+    .buttons{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin-top:30px;
+    }
+
+    .btn{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color:var(--text);
+      padding:14px 24px;
+      border-radius:50px;
+      cursor:pointer;
+      transition: all .3s ease;
+      backdrop-filter: blur(10px);
+      font-size:15px;
+      font-weight:500;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .btn:hover{
+      transform: translateY(-3px);
+      border-color: rgba(255,79,167,.4);
+      background: rgba(255,255,255,.1);
+      box-shadow: 0 15px 35px rgba(255,79,167,.2);
+    }
+    .btn:active{ transform: translateY(-1px) scale(.98); }
+
+    /* Question section */
+    .question{
+      max-width:600px;
+      margin: 80px auto 60px;
+      padding: 50px 30px;
+      text-align:center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(255,79,167,.12), transparent 80%);
+      border-radius:40px;
+    }
+
+    .question h2{
+      font-size: clamp(28px, 6vw, 42px);
+      margin: 0 0 20px;
+      letter-spacing:-.5px;
+    }
+
+    .question p{
+      color:var(--muted);
+      font-size: clamp(14px, 3vw, 16px);
+      line-height:1.6;
+      margin: 0 0 40px;
+    }
+
+    .choices{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      max-width:320px;
+      margin:0 auto;
+    }
+
+    .yes{
+      background: linear-gradient(135deg, rgba(255,79,167,.25), rgba(138,92,255,.15));
+      border:2px solid rgba(255,79,167,.4);
+      font-size:18px;
+      padding:18px 32px;
+      font-weight:600;
+    }
+    .yes:hover{
+      background: linear-gradient(135deg, rgba(255,79,167,.35), rgba(138,92,255,.25));
+      box-shadow: 0 20px 50px rgba(255,79,167,.35);
+    }
+
+    .no{
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.1);
+    }
+
+    /* Footer */
+    footer{
+      text-align:center;
+      color: rgba(255,255,255,.5);
+      font-size: 14px;
+      padding: 40px 20px 20px;
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      left:50%; bottom:24px;
+      transform: translateX(-50%) translateY(20px);
+      padding: 16px 24px;
+      border-radius:50px;
+      background: rgba(10,10,20,.85);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.6);
+      opacity:0;
+      pointer-events:none;
+      transition: all .3s ease;
+      max-width:90vw;
+      color:var(--text);
+      font-size: 15px;
+      z-index: 100;
+      border:1px solid rgba(255,255,255,.1);
+    }
+    .toast.show{
+      opacity:1;
+      transform: translateX(-50%) translateY(0px);
+    }
+
+    /* Confetti */
+    .confetti{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index: 90;
+      display:none;
+    }
+    .confetti.show{ display:block; }
+    .piece{
+      position:absolute;
+      top:-10px;
+      width:10px;
+      height:16px;
+      border-radius:4px;
+      opacity:.9;
+      animation: fall linear forwards;
+    }
+    @keyframes fall{
+      to{
+        transform: translateY(110vh) rotate(720deg);
+        opacity:.1;
+      }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 600px){
+      .hero{ padding: 40px 16px; }
+      .centerHeart{ width:120px; height:120px; }
+      .reasons{ margin: 60px auto; }
+      .reason-item{ margin-bottom: 40px; }
+      .note-section{ padding: 30px 20px; }
+      .question{ padding: 40px 20px; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition:none !important; }
+      canvas#hearts{ display:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Splash Screen -->
+  <div id="splash">
+    <svg class="splashHeart" viewBox="0 0 32 32" fill="none">
+      <path d="M16,28.261c0,0-14-9.3-14-17.046C2,6.442,5.438,3.983,9.5,3.983c2.539,0,4.653,1.404,6.5,3.517 c1.847-2.113,3.961-3.517,6.5-3.517C26.562,3.983,30,6.442,30,11.215C30,18.961,16,28.261,16,28.261z"
+        fill="url(#splashGradient)"/>
+      <defs>
+        <linearGradient id="splashGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#ff4fa7;stop-opacity:1" />
+          <stop offset="50%" style="stop-color:#8a5cff;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#35d6ff;stop-opacity:1" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="film"></div>
+  <div class="noise"></div>
+  <canvas id="hearts"></canvas>
+  <div class="confetti" id="confetti"></div>
+  <div class="toast" id="toast"></div>
+
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="badge"></div>
+        <div style="font-weight:600; font-size:15px;">Valentine Capsule ✨</div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="badge-text">
+          To <span style="color:rgba(255,255,255,.95); font-weight:700;" id="gfName">My Love</span>
+        </div>
+
+        <h1 class="title">
+          I made this little universe<br/>
+          <span class="gradient-text">just for you.</span>
+        </h1>
+
+        <p class="sub">
+          <span id="typewriter" class="type cursorBlink"></span>
+        </p>
+
+        <!-- Big centered heart -->
+        <div class="centerHeart">
+          <svg viewBox="0 0 32 32" fill="none" style="width:100%; height:100%; filter: drop-shadow(0 25px 50px rgba(255,79,167,.4));">
+            <path d="M16,28.261c0,0-14-9.3-14-17.046C2,6.442,5.438,3.983,9.5,3.983c2.539,0,4.653,1.404,6.5,3.517 c1.847-2.113,3.961-3.517,6.5-3.517C26.562,3.983,30,6.442,30,11.215C30,18.961,16,28.261,16,28.261z"
+              fill="url(#heartGradient)"/>
+            <defs>
+              <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#ff4fa7;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#8a5cff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#35d6ff;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Reasons -->
+      <section class="reasons">
+        <div class="reason-item">
+          <div class="reason-number">1</div>
+          <h3 class="reason-title">Your vibe is home.</h3>
+          <p class="reason-text">Even on loud days, you calm my mind. Being with you feels like the safest place in the world.</p>
+        </div>
+
+        <div class="reason-item">
+          <div class="reason-number">2</div>
+          <h3 class="reason-title">You're my favorite person.</h3>
+          <p class="reason-text">I'd choose you—again and again. Every single day, without hesitation.</p>
+        </div>
+
+        <div class="reason-item">
+          <div class="reason-number">3</div>
+          <h3 class="reason-title">We're a good story.</h3>
+          <p class="reason-text">And I want every next chapter with you. Our story is my favorite one to live.</p>
+        </div>
+      </section>
+
+      <!-- Note -->
+      <section class="note-section">
+        <h3>💌 A tiny note</h3>
+        <p id="note">
+          If I could pause time, I'd pause it in the moments when you're laughing.
+          But since I can't… I'll keep making little things like this for you.
+        </p>
+
+        <div class="buttons">
+          <button class="btn" id="sparkleBtn"><span>✨</span><span>Sparkle</span></button>
+          <button class="btn" id="hugBtn"><span>🫶</span><span>Send hug</span></button>
+          <button class="btn" id="copyBtn"><span>📋</span><span>Copy line</span></button>
+        </div>
+      </section>
+
+      <!-- Question -->
+      <section class="question">
+        <h2 id="question">Will you be my Valentine? ❤️</h2>
+        <p>
+          This button is a legally binding agreement that you will receive unlimited love,
+          random compliments, and extra care from me.
+        </p>
+
+        <div class="choices">
+          <button class="btn yes" id="yesBtn"><span>💖</span><span>Yes, absolutely!</span></button>
+          <button class="btn no" id="noBtn"><span>😶‍🌫️</span><span>No</span></button>
+        </div>
+      </section>
+
+      <footer>
+        Made with love — <span id="fromName">Sahan</span> • <span id="dateTxt"></span>
+      </footer>
+    </main>
+  </div>
+
+<script>
+/* Configuration */
+const CONFIG = {
+  gfName: "My Love",
+  fromName: "Sahan",
+  typeLines: [
+    "You are my favorite notification.",
+    "If love had a color… it would look like you.",
+    "I'm proud of you — always.",
+    "You + me = my safest place."
+  ],
+  copyLines: [
+    "I love you more than words can carry.",
+    "You're the calm in my chaos.",
+    "I'll choose you every single day.",
+    "You feel like home."
+  ]
+};
+
+const $ = (q)=>document.querySelector(q);
+const toast = $("#toast");
+function showToast(msg){
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=>toast.classList.remove("show"), 2500);
+}
+
+function rand(a,b){ return Math.random()*(b-a)+a; }
+
+/* Fill content */
+$("#gfName").textContent = CONFIG.gfName;
+$("#fromName").textContent = CONFIG.fromName;
+$("#dateTxt").textContent = new Date().toLocaleDateString(undefined, { year:"numeric", month:"long", day:"numeric" });
+
+/* Typewriter */
+const tw = $("#typewriter");
+let lineIndex = 0, charIndex = 0, deleting = false;
+
+function typeLoop(){
+  const lines = CONFIG.typeLines;
+  const current = lines[lineIndex % lines.length];
+
+  if(!deleting){
+    charIndex++;
+    tw.textContent = current.slice(0, charIndex);
+    if(charIndex >= current.length){
+      deleting = true;
+      setTimeout(typeLoop, 1500);
+      return;
+    }
+  }else{
+    charIndex--;
+    tw.textContent = current.slice(0, charIndex);
+    if(charIndex <= 0){
+      deleting = false;
+      lineIndex++;
+    }
+  }
+  const speed = deleting ? rand(20, 30) : rand(35, 55);
+  setTimeout(typeLoop, speed);
+}
+setTimeout(typeLoop, 1000);
+
+/* Floating hearts canvas */
+const c = $("#hearts");
+const ctx = c.getContext("2d");
+let W=0,H=0, dpr=1;
+
+function resize(){
+  dpr = window.devicePixelRatio || 1;
+  W = Math.floor(window.innerWidth);
+  H = Math.floor(window.innerHeight);
+  c.width = Math.floor(W*dpr);
+  c.height = Math.floor(H*dpr);
+  c.style.width = W+"px";
+  c.style.height = H+"px";
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener("resize", resize);
+resize();
+
+const hearts = [];
+
+function spawnHeart(x = rand(0,W), y = H + 20){
+  const s = rand(8, 18);
+  hearts.push({
+    x, y,
+    vx: rand(-0.3, 0.3),
+    vy: rand(-1, -0.5),
+    s,
+    a: rand(0.6, 0.9),
+    rot: rand(0, Math.PI*2),
+    vr: rand(-0.02, 0.02),
+    hue: rand(320, 360)
+  });
+}
+
+for(let i=0;i<20;i++) spawnHeart(rand(0,W), rand(0,H));
+
+function drawHeart(x, y, size, rot, alpha, hue){
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(rot);
+  ctx.globalAlpha = alpha;
+
+  // Proper heart shape using path
+  const w = size;
+  const h = size;
+  
+  ctx.beginPath();
+  ctx.moveTo(0, h/4);
+  
+  // Left curve
+  ctx.bezierCurveTo(-w/2, -h/4, -w/2, h/4, 0, h/2);
+  
+  // Right curve  
+  ctx.bezierCurveTo(w/2, h/4, w/2, -h/4, 0, h/4);
+  
+  ctx.closePath();
+
+  const g = ctx.createLinearGradient(-size/2, -size/2, size/2, size/2);
+  g.addColorStop(0, `hsla(${hue}, 95%, 65%, ${alpha})`);
+  g.addColorStop(1, `hsla(${(hue+40)%360}, 95%, 55%, ${alpha})`);
+  ctx.fillStyle = g;
+  ctx.fill();
+
+  ctx.restore();
+}
+
+let last = performance.now();
+function loop(now){
+  const dt = Math.min(32, now-last);
+  last = now;
+  ctx.clearRect(0,0,W,H);
+
+  for(let i=hearts.length-1;i>=0;i--){
+    const h = hearts[i];
+    h.x += h.vx * (dt*0.06);
+    h.y += h.vy * (dt*0.06);
+    h.rot += h.vr * (dt*0.06);
+    h.a -= 0.0005 * dt;
+
+    drawHeart(h.x, h.y, h.s, h.rot, h.a, h.hue);
+
+    if(h.y < -40 || h.a <= 0){
+      hearts.splice(i,1);
+      spawnHeart(rand(0,W), H + 40);
+    }
+  }
+
+  if(hearts.length < 25) spawnHeart();
+
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+/* Sparkle effects */
+function burst(x,y, count=16){
+  for(let i=0;i<count;i++){
+    const p = document.createElement("div");
+    p.style.position="fixed";
+    p.style.left = x+"px";
+    p.style.top = y+"px";
+    p.style.width = "6px";
+    p.style.height = "6px";
+    p.style.borderRadius = "50%";
+    p.style.background = `hsla(${rand(300, 200)}, 95%, 70%, 0.95)`;
+    p.style.pointerEvents="none";
+    p.style.zIndex=80;
+    document.body.appendChild(p);
+
+    const ang = rand(0, Math.PI*2);
+    const dist = rand(40, 120);
+    const dx = Math.cos(ang)*dist;
+    const dy = Math.sin(ang)*dist;
+
+    p.animate([
+      { transform:`translate(0,0) scale(1)`, opacity:1 },
+      { transform:`translate(${dx}px, ${dy}px) scale(0.2)`, opacity:0 }
+    ], { duration: rand(700, 1200), easing:"cubic-bezier(.2,.8,.2,1)" })
+    .onfinish = ()=> p.remove();
+  }
+}
+
+/* Button handlers */
+$("#sparkleBtn").addEventListener("click", (e)=>{
+  const r = e.currentTarget.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height/2, 24);
+  showToast("Sparkles sent ✨");
+});
+
+$("#hugBtn").addEventListener("click", (e)=>{
+  const r = e.currentTarget.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height/2, 28);
+  showToast("Hug delivered 🫶");
+});
+
+$("#copyBtn").addEventListener("click", async ()=>{
+  const line = CONFIG.copyLines[Math.floor(rand(0, CONFIG.copyLines.length))];
+  try{
+    await navigator.clipboard.writeText(line);
+    showToast("Copied: " + line);
+  }catch{
+    showToast(line);
+  }
+});
+
+/* Confetti */
+const confetti = $("#confetti");
+
+function confettiPop(){
+  confetti.innerHTML = "";
+  confetti.classList.add("show");
+
+  const pieces = 120;
+  for(let i=0;i<pieces;i++){
+    const el = document.createElement("div");
+    el.className = "piece";
+    el.style.left = rand(0, 100) + "vw";
+    el.style.background = `hsla(${rand(300, 200)}, 95%, 70%, .95)`;
+    el.style.animationDuration = rand(2, 4) + "s";
+    el.style.animationDelay = rand(0, .4) + "s";
+    confetti.appendChild(el);
+  }
+
+  setTimeout(()=> confetti.classList.remove("show"), 4500);
+}
+
+/* Yes/No buttons */
+$("#yesBtn").addEventListener("click", (e)=>{
+  const r = e.currentTarget.getBoundingClientRect();
+  burst(r.left + r.width/2, r.top + r.height/2, 50);
+  confettiPop();
+  $("#question").textContent = "YAYYY! I LOVE YOU 💖";
+  showToast("Best answer ever 😌");
+});
+
+const noBtn = $("#noBtn");
+let noCount = 0;
+
+noBtn.addEventListener("mouseenter", ()=>{
+  noCount++;
+  const pad = 20;
+  const maxX = window.innerWidth - noBtn.offsetWidth - pad;
+  const maxY = window.innerHeight - noBtn.offsetHeight - pad;
+
+  const x = rand(pad, maxX);
+  const y = rand(pad, maxY);
+
+  noBtn.style.position = "fixed";
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
+  noBtn.style.transition = "all .2s ease";
+  noBtn.style.transform = `rotate(${rand(-10,10)}deg)`;
+
+  if(noCount === 2) showToast("Heyyy 😶‍🌫️");
+  if(noCount === 4) showToast("Just press YES 😌");
+});
+
+/* Touch sparkles */
+window.addEventListener("pointerdown", (e)=>{
+  if(e.target.closest("button")) return;
+  burst(e.clientX, e.clientY, 12);
+});
+
+/* Initial toast */
+setTimeout(()=>showToast("Tap anywhere for sparkles ✨"), 3500);
+</script>
+</body>
+</html>
